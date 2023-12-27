@@ -27,13 +27,15 @@ import com.satyamthakur.learning.onboardingscreen.R
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PagerScreen(items: List<OnboardingData>) {
-    val pagerState = rememberPagerState(pageCount = { items.size })
+    val pagerState = rememberPagerState(
+        pageCount = { items.size }
+    )
 
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize()
-    ) {
-
+    ) { page ->
+        PageView(item = items[page])
     }
 
 }
@@ -43,7 +45,9 @@ fun PageView(item: OnboardingData) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     ) {
 
         Image(
