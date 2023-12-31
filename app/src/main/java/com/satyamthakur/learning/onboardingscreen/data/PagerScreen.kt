@@ -1,9 +1,13 @@
 package com.satyamthakur.learning.onboardingscreen.data
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -11,10 +15,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -30,14 +37,49 @@ fun PagerScreen(items: List<OnboardingData>) {
     val pagerState = rememberPagerState(
         pageCount = { items.size }
     )
-
-    HorizontalPager(
-        state = pagerState,
-        modifier = Modifier.fillMaxSize()
-    ) { page ->
-        PageView(item = items[page])
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        HorizontalPager(
+            state = pagerState,
+        ) { page ->
+            PageView(item = items[page])
+        }
+        PagerIndicator(size = items.size, currentPage = pagerState.currentPage)
     }
 
+}
+
+@Composable
+fun PagerIndicator(
+    size: Int,
+    currentPage: Int
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.padding(top = 40.dp)
+    ) {
+        repeat(size) {
+            Indicator(isSelected = it == currentPage)
+        }
+    }
+}
+
+@Composable
+fun Indicator(isSelected: Boolean) {
+    val width = animateDpAsState(targetValue = if (isSelected) 25.dp else 16.dp)
+    Box(
+        modifier = Modifier
+            .padding(1.dp)
+            .height(10.dp)
+            .width(width.value)
+            .clip(CircleShape)
+            .background(
+                if (isSelected) Color.Red else Color.Gray
+            )
+    )
 }
 
 @Composable
@@ -46,8 +88,7 @@ fun PageView(item: OnboardingData) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(16.dp)
     ) {
 
         Image(
