@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,19 +39,41 @@ fun PagerScreen(items: List<OnboardingData>) {
     val pagerState = rememberPagerState(
         pageCount = { items.size }
     )
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        HorizontalPager(
-            state = pagerState,
-        ) { page ->
-            PageView(item = items[page])
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            HorizontalPager(
+                state = pagerState,
+            ) { page ->
+                PageView(item = items[page])
+            }
+            PagerIndicator(size = items.size, currentPage = pagerState.currentPage)
         }
-        PagerIndicator(size = items.size, currentPage = pagerState.currentPage)
+        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+            BottomButtons(pagerState.currentPage)
+        }
     }
 
+}
+
+@Composable
+fun BottomButtons(currentPage: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        OutlinedButton(onClick = { /*TODO*/ }) {
+            Text(text = "Skip")
+        }
+        OutlinedButton(onClick = { /*TODO*/ }) {
+            Text(text = "Next")
+        }
+    }
 }
 
 @Composable
