@@ -1,6 +1,14 @@
 package com.satyamthakur.learning.onboardingscreen.data
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,10 +28,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -65,13 +78,19 @@ fun BottomButtons(currentPage: Int) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = if (currentPage != 2) Arrangement.SpaceBetween else Arrangement.Center
     ) {
-        OutlinedButton(onClick = { /*TODO*/ }) {
-            Text(text = "Skip")
-        }
-        OutlinedButton(onClick = { /*TODO*/ }) {
-            Text(text = "Next")
+        if (currentPage == 2) {
+            OutlinedButton(onClick = { /*TODO*/ }) {
+                Text(text = "Get Started")
+            }
+        } else {
+            OutlinedButton(onClick = { /*TODO*/ }) {
+                Text(text = "Skip")
+            }
+            OutlinedButton(onClick = { /*TODO*/ }) {
+                Text(text = "Next")
+            }
         }
     }
 }
